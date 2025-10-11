@@ -23,8 +23,6 @@ public class Product {
     private String description;
     private String brand;
     private double price;
-
-    @JsonFormat(shape =  JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date releaseDate;
 
 }
