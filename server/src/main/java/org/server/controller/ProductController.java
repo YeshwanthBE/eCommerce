@@ -3,9 +3,9 @@ package org.server.controller;
 import org.server.modal.Product;
 import org.server.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,7 +23,14 @@ public class ProductController {
     }
 
     @RequestMapping("/products")
-    public List<Product> getProducts() {
-        return productService.getAllProducts();
+    public ResponseEntity<List<Product>> getProducts() {
+        return new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
+    }
+
+    @GetMapping("/product/{id}")
+    public ResponseEntity<Product> getProduct(@PathVariable int id) {
+        Product product = productService.getProductById(id);
+        HttpStatus httpResponseStatus = product == null ? HttpStatus.NOT_FOUND : HttpStatus.OK;
+        return new ResponseEntity<>(product, httpResponseStatus);
     }
 }
