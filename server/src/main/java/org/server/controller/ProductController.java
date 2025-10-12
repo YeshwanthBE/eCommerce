@@ -50,4 +50,24 @@ public class ProductController {
     public ResponseEntity<byte[]> getImage(@PathVariable int id) {
         return new ResponseEntity<>(productService.getProductImage(id),HttpStatus.OK);
     }
+
+    @PutMapping("product/{id}")
+    public ResponseEntity<?> updateProduct(@PathVariable int id, @RequestPart Product product, @RequestPart MultipartFile imageFile) {
+        try{
+            product = productService.updateProduct(id,product,imageFile);;
+            return  new ResponseEntity<>(product,HttpStatus.OK);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping("/product/{id}")
+    public ResponseEntity<String> deleteProduct(@PathVariable int id) {
+        boolean isDeleted = productService.deleteProduct(id);
+        if(isDeleted){
+            return new ResponseEntity<>("Product Deleted Successfully",HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

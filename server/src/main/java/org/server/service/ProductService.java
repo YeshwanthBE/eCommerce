@@ -35,4 +35,22 @@ public class ProductService {
         Product product= productRepo.findById(id).get();
         return product.getImage();
     }
+
+    public Product updateProduct(int id, Product product, MultipartFile imageFile) throws IOException{
+        product.setImageName(imageFile.getOriginalFilename());
+        product.setImageType(imageFile.getContentType());
+        product.setImage(imageFile.getBytes());
+        if(productRepo.existsById(id)){
+            productRepo.save(product);
+        }
+        return productRepo.findById(id).orElse(null);
+    }
+
+    public boolean deleteProduct(int id) {
+        if(productRepo.existsById(id)){
+            productRepo.deleteById(id);
+            return true;
+        }
+        return false;
+    }
 }
