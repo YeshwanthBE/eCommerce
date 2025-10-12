@@ -70,4 +70,9 @@ public class ProductController {
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping("/products/search")
+    public List<Product> getProductsByKeyword(@RequestParam String keyword){
+        return productService.getProductsByKeyword(keyword);
+    }
 }

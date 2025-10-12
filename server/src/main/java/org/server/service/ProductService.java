@@ -53,4 +53,8 @@ public class ProductService {
         }
         return false;
     }
+
+    public List<Product> getProductsByKeyword(String keyword) {
+        return productRepo.getProductByKeyword(keyword);
+    }
 }
