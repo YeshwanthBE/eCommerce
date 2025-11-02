@@ -1,6 +1,8 @@
 package org.server.controller;
 
 import org.server.modal.Product;
+import org.server.modal.Users;
+import org.server.service.CustomUserDetailsService;
 import org.server.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,8 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
 
     @RequestMapping("/")
     public String index(){
@@ -75,4 +79,10 @@ public class ProductController {
     public List<Product> getProductsByKeyword(@RequestParam String keyword){
         return productService.getProductsByKeyword(keyword);
     }
+
+    @PostMapping("/users/addUser")
+    public ResponseEntity<?> addUser(@RequestBody Users user){
+        return new ResponseEntity<>(customUserDetailsService.addUser(user),HttpStatus.CREATED);
+    }
+
 }
